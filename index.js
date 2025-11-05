@@ -1,7 +1,7 @@
 import { sumar, restar } from "../funciones/auxiliares.js"
 
 
-const Incidencias = [
+let Incidencias = [
     {
         id: 1,
         titol: "Ordenador no se enciende",
@@ -74,8 +74,8 @@ function renderTabla() {
             <td>${Incidencias[i].asignat}</td>
             <td>${Incidencias[i].data}</td>
             <td>
-                <button class="btn btn-sm btn-success data="editar">Edita</button>
-                <button class="btn btn-sm btn-danger data="eliminar">Elimina</button>
+                <button class="btn btn-sm btn-success data-editar>Edita</button>
+                <button class="btn btn-sm btn-danger" data-eliminar data-id="${Incidencias[i].id}">Elimina</button>
             </td>
         </tr>
     `;
@@ -190,8 +190,8 @@ function filtrarIncidencias() {
             <td>${incidenciasFiltradas[i].asignat}</td>
             <td>${incidenciasFiltradas[i].data}</td>
             <td>
-                <button class="btn btn-sm btn-success" data-editar>Edita</button>
-                <button class="btn btn-sm btn-danger" data-eliminar>Elimina</button>
+                <button class="btn btn-sm btn-success">Edita</button>
+                <button class="btn btn-sm btn-danger" data-eliminar data-id="${incidenciasFiltradas[i].id}">Elimina</button>
             </td>
         </tr>
         `
@@ -239,6 +239,7 @@ function obrirModalNova() {
             casilla = ""
             renderTabla()
             aplicarClases(Incidencias)
+            filtrarIncidencias()
 
         })
         
@@ -252,8 +253,30 @@ function obrirModalNova() {
 
 obrirModalNova();
 
+function editarIncidencia(){
 
+}
 
+function eliminarIncidencia(){
+
+     tabla.addEventListener("click", (e) => {
+        // Verifica si el click fue en un botón de eliminar
+        if (e.target.hasAttribute("data-eliminar")) {
+            const id = parseInt(e.target.dataset.id)
+            console.log("btnEliminar")
+            // Creamos un nuevo array sin la incidencia con ese id
+            Incidencias = Incidencias.filter(incidencia => incidencia.id !== id)
+
+            // Volvemos a renderizar y aplicar estilos
+            casilla = ""
+            renderTabla()
+            aplicarClases(Incidencias)
+            filtrarIncidencias()
+        }
+    });
+}
+
+eliminarIncidencia()
 
 
 
